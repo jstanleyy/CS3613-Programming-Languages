@@ -39,7 +39,7 @@
 (test (make-list 5 1) => '(1 1 1 1 1))
 (test (make-list 3 'a) => '(a a a))
 
-#|
+
 ;; 2. Define a higher order function comma-join with the following type
 ;; signature:
 ;;
@@ -56,7 +56,21 @@
 ;; writing a non-tail recursive version, and then modify it to be tail
 ;; recursive.
 
-; Write your comma-join function here...
+(: comma-join : (All (A) (A -> String) (Listof A) -> String))
+(define (comma-join func lst)
+  (comma-join-helper func lst ""))
+
+(: comma-join-helper : (All (A) (A -> String) (Listof A) String -> String))
+(define (comma-join-helper func lst acc)
+  (if (null? lst)
+      acc
+      (comma-join-helper func (rest lst) (string-append 
+                                          acc 
+                                          (func (first lst)) 
+                                          ;; Ensures a comma is placed only if there is another element to come.
+                                          (if (null? (rest lst))
+                                              "" 
+                                              ",")))))
 
 (test (comma-join number->string '(1 2 3)) => "1,2,3")
 
@@ -86,10 +100,13 @@
   [Leaf String]
   [Node BINTREE BINTREE])
 
+;; Maps a given function onto a given tree, and returns a new tree.
 (: tree-map : (String -> String) BINTREE -> BINTREE)
 (define (tree-map f t)
-; Complete this function...
-)
+  (cases t
+    [(Empty) (Empty)]
+    [(Leaf str) (Leaf (f str))]
+    [(Node l r) (Node (tree-map f l) (tree-map f r))])) 
 
 (test (tree-map string-rev (Empty)) => (Empty))
 (test (tree-map string-rev (Leaf "leaf")) => (Leaf "fael"))
@@ -118,7 +135,15 @@
 (test (sum-abs-rec '(-2)) => 2)
 (test (sum-abs-rec '(1 -2 3)) => 6)
 
-; Write you sum-abs function here... |#
+;; Computes the sum of the absolute values of a list without recursion
+(: sum-abs : (Listof Number) -> Number)
+(define (sum-abs lst)
+  (foldl + 0 (map abs lst)))
+
+;; Test cases for sum-abs
+(test (sum-abs '()) => 0)
+(test (sum-abs '(-2)) => 2)
+(test (sum-abs '(1 -2 3)) => 6)
 
 
 
