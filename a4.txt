@@ -1,0 +1,55 @@
+CS3613 Assignment 4
+Due 5 Februray at 23:59
+
+In this assignment you will extend WAE to have arithmetic operators
+that are similar to their Racket counterparts. 
+
+Start by downloading a4-skeleton.rkt. You will modify this version of
+WAE and submit it to D2L when you're done.
+
+I have already made the following changes to WAE for you:
+
+- The BNF has been changed to allow any number of arguments for + and
+  *, and one or more arguments for - and / (This follows how these
+  operators work in Racket / pl)
+
+- The type definition has been updated to correspond to the new BNF
+
+- parse-sexpr has been updated to correspond to the new type
+
+- The substitution rules and the subst function have been updated too
+  (make sure you understand how this function and the new helper
+  function work)
+
+- The formal specs for eval have been updated to specify the same
+  semantics as the Racket operations
+
+- eval has been modified to work when the arithmetic operators are
+  used with exactly two arguments; i.e., WAE tests that used to pass
+  still pass
+
+- I've add some commented out tests. They won't pass yet, but should
+  pass when you're done.
+
+Your job is to complete the following:
+
+1. The current tests do not provide full coverage. Add enough tests to
+   provide full coverage.
+
+2. In Racket (including pl, the course language) + and * can be used
+   with 0 (or more) arguments; - and / can be used with 1 (or more)
+   arguments. The behavior of these operators is described by the eval
+   rules. (You can also experiment with the arithmetic operators in pl
+   to learn more about how they work.) Fix eval so that the arithmetic
+   operators behave just like they do in pl. (Hint: map and foldl are
+   your friends here.) Notice that in the case of division by 0 you
+   should raise a "division by zero" error (look at parse-sexpr and
+   subst for examples of how to raise an error).
+
+   You only need to modify the eval function to do this. If necessary,
+   you can add helper functions.
+
+   I've provided you with a number of commented out tests. All of
+   these should pass when you're done modifying eval. They might not
+   provide full coverage for your implementation though; you are
+   responsible for adding enough tests to ensure complete coverage.
